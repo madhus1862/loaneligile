@@ -1,0 +1,29 @@
+.service-page {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .service-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .service-content h2 {
+    margin-top: 20px;
+  }
+  
+  .service-content p {
+      line-height: 1.5;
+      font-size: 25px;
+    }
+    
+    .service-content ol,
+    .service-content ul {
+        margin-left: 40px;
+        font-size: 22px;
+  }
+  
+  .service-content li {
+    margin-bottom: 10px;
+  }
+  

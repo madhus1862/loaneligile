@@ -1,0 +1,55 @@
+.app {
+  text-align: center;
+  padding: 20px;
+}
+
+.heading {
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+.head{
+  font-size: 30px;
+}
+.para{
+  margin-bottom: 10px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #1dde41; */
+  box-shadow: rgb(198, 119, 178);
+  color: rgb(16, 16, 16);
+  padding: 30px 200px;
+  position: fixed ;
+  top: 0%;
+  left:0%;
+  width: 100vw;
+}
+
+.logo {
+  font-size: 30px;
+  padding-right: 60%;
+}
+
+.nav-links {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  width: auto;
+}
+
+.nav-links li {
+  padding-right: 30px;
+}
+
+.nav-links li a {
+  font-size: 24px;
+  color: rgb(39, 36, 36);
+  text-decoration: none;
+}
+
+.nav-links li a:hover {
+  color: #ddd;
+}

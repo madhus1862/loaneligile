@@ -1,0 +1,17 @@
+.container {
+    /* height: 200vh; */
+    text-align: center;
+    width: 100vw;
+    margin: 0;
+    
+    /* padding: 5vw; */
+}
+
+.loan-cards {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
