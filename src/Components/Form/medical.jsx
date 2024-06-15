@@ -24,9 +24,9 @@ function MedicalLoanForm() {
     hasBankStatement: false,
     hasSalaryProof: false,
     declaration: false,
-    medicalEmergencyDetails: '', // New field for medical emergency details
-    estimatedMedicalExpenses: '', // New field for estimated medical expenses
-    hasMedicalDocuments: false, // New field for medical documents
+    medicalEmergencyDetails: '',
+    estimatedMedicalExpenses: '',
+    hasMedicalDocuments: false,
   });
 
   const handleChange = (e) => {
@@ -40,13 +40,46 @@ function MedicalLoanForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/loanApplications', { method: "POST", headers: { "Content-Type": "application/json" },body:JSON.stringify(formData)});
-      
+      const response = await fetch('http://127.0.0.1:5000/api/loanApplications', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          loanAmount: parseFloat(formData.loanAmount),
+          medicalEmergencyDetails: formData.medicalEmergencyDetails,
+          estimatedMedicalExpenses: parseFloat(formData.estimatedMedicalExpenses),
+          dob: formData.dob,
+          age: parseInt(formData.age),
+          gender: formData.gender,
+          contactNumber: formData.contactNumber,
+          email: formData.email,
+          address: formData.address,
+          city: formData.city,
+          state: formData.state,
+          pin: formData.pin,
+          employmentType: formData.employmentType,
+          employerName: formData.employerName,
+          netMonthlyIncome: parseFloat(formData.netMonthlyIncome),
+          loanType: formData.loanType,
+          loanTenure: formData.loanTenure,
+          hasIdentityProof: formData.hasIdentityProof,
+          hasAddressProof: formData.hasAddressProof,
+          hasBankStatement: formData.hasBankStatement,
+          hasSalaryProof: formData.hasSalaryProof,
+          declaration: formData.declaration,
+          hasMedicalDocuments: formData.hasMedicalDocuments
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log('Success:', result.message);
+      } else {
+        console.log('Error:', result.error);
+      }
+    } catch (error) {
+      console.log('Error:', error);
     }
-    catch (error) {
-      console.log(error);
-    }
-    console.log(formData);
   };
 
   return (
@@ -92,21 +125,6 @@ function MedicalLoanForm() {
           <input type="text" name="pin" value={formData.pin} onChange={handleChange} />
         </div>
 
-        {/* Employment Details Section */}
-        {/* <div className="form-section">
-          <h3>Employment Details:</h3>
-          <label>Employment Type:</label>
-          <input type="text" name="employmentType" value={formData.employmentType} onChange={handleChange} />
-
-          <label>Employer Name:</label>
-          <input type="text" name="employerName" value={formData.employerName} onChange={handleChange} />
-
-          <label>Net Monthly Income:</label>
-          <input type="number" name="netMonthlyIncome" value={formData.netMonthlyIncome} onChange={handleChange} />
-        </div> */}
-
-
-
         {/* Medical Emergency Details Section */}
         <div className="form-section">
           <h3>Medical Emergency Details:</h3>
@@ -115,21 +133,9 @@ function MedicalLoanForm() {
 
           <label>Estimated Medical Expenses:</label>
           <input type="number" name="estimatedMedicalExpenses" value={formData.estimatedMedicalExpenses} onChange={handleChange} required />
-          {/* Loan Details Section */}
-          <div className="form-section">
-            <h3>Loan Details:</h3>
-            <label>Loan Amount:</label>
-            <input type="number" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
 
-            <label>Loan Purpose:</label>
-            <input type="text" name="loanPurpose" value={formData.loanPurpose} onChange={handleChange} required />
-            <label>Interest Rate Type:</label>
-            <select name="interestRateType" value={formData.interestRateType} onChange={handleChange}>
-              <option value="">Select Interest Rate Type</option>
-              <option value="fixed">Fixed</option>
-              <option value="variable">Variable</option>
-            </select>
-          </div>
+          <label>Loan Amount:</label>
+          <input type="number" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
 
           <label>
             <input
