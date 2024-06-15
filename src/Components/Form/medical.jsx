@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './form.css'; 
+import './form.css';
 
 function MedicalLoanForm() {
   const [formData, setFormData] = useState({
@@ -37,18 +37,24 @@ function MedicalLoanForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to handle form submission
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/loanApplications', { method: "POST", headers: { "Content-Type": "application/json" },body:JSON.stringify(formData)});
+      
+    }
+    catch (error) {
+      console.log(error);
+    }
     console.log(formData);
   };
 
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
-    {/* Personal Information Section */}
+        {/* Personal Information Section */}
         <div className="form-section">
-        <h2>Medical Loan Application Form</h2>
+          <h2>Medical Loan Application Form</h2>
           <h3>Personal Information:</h3>
           <label>Full Name:</label>
           <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
@@ -101,7 +107,7 @@ function MedicalLoanForm() {
 
 
 
-     {/* Medical Emergency Details Section */}
+        {/* Medical Emergency Details Section */}
         <div className="form-section">
           <h3>Medical Emergency Details:</h3>
           <label>Details of Medical Emergency:</label>
@@ -109,21 +115,21 @@ function MedicalLoanForm() {
 
           <label>Estimated Medical Expenses:</label>
           <input type="number" name="estimatedMedicalExpenses" value={formData.estimatedMedicalExpenses} onChange={handleChange} required />
- {/* Loan Details Section */}
- <div className="form-section">
-          <h3>Loan Details:</h3>
-          <label>Loan Amount:</label>
-          <input type="number" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
+          {/* Loan Details Section */}
+          <div className="form-section">
+            <h3>Loan Details:</h3>
+            <label>Loan Amount:</label>
+            <input type="number" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
 
-          <label>Loan Purpose:</label>
-          <input type="text" name="loanPurpose" value={formData.loanPurpose} onChange={handleChange} required />
-          <label>Interest Rate Type:</label>
-          <select name="interestRateType" value={formData.interestRateType} onChange={handleChange}>
-            <option value="">Select Interest Rate Type</option>
-            <option value="fixed">Fixed</option>
-            <option value="variable">Variable</option>
-          </select>
-        </div>
+            <label>Loan Purpose:</label>
+            <input type="text" name="loanPurpose" value={formData.loanPurpose} onChange={handleChange} required />
+            <label>Interest Rate Type:</label>
+            <select name="interestRateType" value={formData.interestRateType} onChange={handleChange}>
+              <option value="">Select Interest Rate Type</option>
+              <option value="fixed">Fixed</option>
+              <option value="variable">Variable</option>
+            </select>
+          </div>
 
           <label>
             <input
