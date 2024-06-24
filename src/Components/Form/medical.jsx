@@ -16,7 +16,7 @@ function MedicalLoanForm() {
     employmentType: '',
     employerName: '',
     netMonthlyIncome: '',
-    loanType: '',
+    loanType: 'Medical Loan',
     loanAmount: '',
     loanTenure: '',
     hasIdentityProof: false,
@@ -40,34 +40,15 @@ function MedicalLoanForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://127.0.0.1:5000/api/loanApplications', {
+      const response = await fetch('http://127.0.0.1:5000/api/medicalLoanApplications', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          fullName: formData.fullName,
+          ...formData,
           loanAmount: parseFloat(formData.loanAmount),
-          medicalEmergencyDetails: formData.medicalEmergencyDetails,
           estimatedMedicalExpenses: parseFloat(formData.estimatedMedicalExpenses),
-          dob: formData.dob,
           age: parseInt(formData.age),
-          gender: formData.gender,
-          contactNumber: formData.contactNumber,
-          email: formData.email,
-          address: formData.address,
-          city: formData.city,
-          state: formData.state,
-          pin: formData.pin,
-          employmentType: formData.employmentType,
-          employerName: formData.employerName,
           netMonthlyIncome: parseFloat(formData.netMonthlyIncome),
-          loanType: formData.loanType,
-          loanTenure: formData.loanTenure,
-          hasIdentityProof: formData.hasIdentityProof,
-          hasAddressProof: formData.hasAddressProof,
-          hasBankStatement: formData.hasBankStatement,
-          hasSalaryProof: formData.hasSalaryProof,
-          declaration: formData.declaration,
-          hasMedicalDocuments: formData.hasMedicalDocuments
         }),
       });
 
