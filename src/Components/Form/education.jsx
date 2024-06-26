@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './form.css'; // Import CSS file for styling
+import './form.css';
 
 function EducationLoanForm() {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ function EducationLoanForm() {
     courseFee: '',
     loanAmount: '',
     academicRecords: '',
-    admissionDocuments: [],
+    admissionDocuments: '',
     hasIdentityProof: false,
     hasAddressProof: false,
     hasBankStatement: false,
@@ -34,26 +34,43 @@ function EducationLoanForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add logic to handle form submission
-    console.log(formData);
+    const formDataCopy = { ...formData };
+    formDataCopy.courseFee = parseFloat(formData.courseFee);
+    formDataCopy.loanAmount = parseFloat(formData.loanAmount);
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/apply/education-loan', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formDataCopy),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(`Success: ${result.message}`);
+      } else {
+        alert(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      alert(`Error: ${error}`);
+    }
   };
 
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
         <h2>Education Loan Application</h2>
-        {/* Personal Information Section */}
         <div className="form-section">
-          <h3>Personal Information:</h3>
-          <label>Student's Name:</label>
+          <h3>Student Information:</h3>
+          <label>Student Name:</label>
           <input type="text" name="studentName" value={formData.studentName} onChange={handleChange} required />
 
-          <label>Guardian's Name:</label>
+          <label>Guardian Name:</label>
           <input type="text" name="guardianName" value={formData.guardianName} onChange={handleChange} required />
 
-          <label>Student's Date of Birth:</label>
+          <label>Date of Birth:</label>
           <input type="date" name="studentDOB" value={formData.studentDOB} onChange={handleChange} required />
 
           <label>Gender:</label>
@@ -64,11 +81,11 @@ function EducationLoanForm() {
             <option value="other">Other</option>
           </select>
 
-          <label>Guardian's Contact Number:</label>
-          <input type="text" name="guardianContactNumber" value={formData.guardianContactNumber} onChange={handleChange} required />
+          <label>Guardian Contact Number:</label>
+          <input type="tel" name="guardianContactNumber" value={formData.guardianContactNumber} onChange={handleChange} required />
 
           <label>Email:</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange} />
+          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
 
           <label>Address:</label>
           <textarea name="address" value={formData.address} onChange={handleChange} required />
@@ -79,18 +96,15 @@ function EducationLoanForm() {
           <label>State:</label>
           <input type="text" name="state" value={formData.state} onChange={handleChange} required />
 
-          <label>PIN:</label>
-          <input type="text" name="pin" value={formData.pin} onChange={handleChange} required />
-        </div>
+          <label>Pin:</label>
+          <input type="number" name="pin" value={formData.pin} onChange={handleChange} required />
 
-        {/* Education Details Section */}
-        <div className="form-section">
-          <h3>Education Details:</h3>
+          <h3>Course Details:</h3>
           <label>Educational Institution:</label>
           <input type="text" name="educationalInstitution" value={formData.educationalInstitution} onChange={handleChange} required />
 
           <label>Course Details:</label>
-          <input type="text" name="courseDetails" value={formData.courseDetails} onChange={handleChange} required />
+          <textarea name="courseDetails" value={formData.courseDetails} onChange={handleChange} required />
 
           <label>Course Fee:</label>
           <input type="number" name="courseFee" value={formData.courseFee} onChange={handleChange} required />
@@ -99,15 +113,11 @@ function EducationLoanForm() {
           <input type="number" name="loanAmount" value={formData.loanAmount} onChange={handleChange} required />
 
           <label>Academic Records:</label>
-          <textarea name="academicRecords" value={formData.academicRecords} onChange={handleChange} required />
+          <input type="text" name="academicRecords" value={formData.academicRecords} onChange={handleChange} required />
 
           <label>Admission Documents:</label>
-          <input type="file" name="admissionDocuments" onChange={handleChange} multiple required />
-        </div>
+          <input type="text" name="admissionDocuments" value={formData.admissionDocuments} onChange={handleChange} required />
 
-        {/* Documents Required Section */}
-        <div className="form-section">
-          <h3>Documents Required:</h3>
           <label>
             <input
               type="checkbox"
@@ -115,7 +125,8 @@ function EducationLoanForm() {
               checked={formData.hasIdentityProof}
               onChange={handleChange}
             />
-            Identity Proof          </label>
+            Identity Proof
+          </label>
 
           <label>
             <input
@@ -144,13 +155,9 @@ function EducationLoanForm() {
               checked={formData.hasMarksheets}
               onChange={handleChange}
             />
-            Mark sheets
+            Marksheets
           </label>
-        </div>
 
-        {/* Declaration Section */}
-        <div className="form-section">
-          <h3>Declaration:</h3>
           <label>
             <input
               type="checkbox"
@@ -158,15 +165,11 @@ function EducationLoanForm() {
               checked={formData.declaration}
               onChange={handleChange}
             />
-            I declare that the information provided above is true to the best of my knowledge.
+            Declaration
           </label>
         </div>
 
-        {/* Button Group */}
-        <div className="button-group">
-          <button type="submit">Submit</button>
-          <button type="reset">Reset</button>
-        </div>
+        <button type="submit">Submit Application</button>
       </form>
     </div>
   );
